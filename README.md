@@ -25,7 +25,7 @@ Read the [help][txt-doc] to know more.
 Just add this line to your `~/.vimrc`:
 
 ```vim
-Plugin 'sukima/vim-ember-imports'
+Plugin 'sukima/vim-javascript-imports'
 ```
 
 And run `:PluginInstall` inside Vim.

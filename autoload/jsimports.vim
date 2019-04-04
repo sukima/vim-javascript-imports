@@ -139,13 +139,13 @@ function! s:RenderImport(ast, from)
     let destructureParts[-1] = substitute(destructureParts[-1], '\v,$', '', '')
     let parts = parts + ['{'] + destructureParts + ['}']
   endif
-  let semicolon = g:vim_ember_imports_use_semicolons ? ';' : ''
+  let semicolon = g:vim_javascript_imports_use_semicolons ? ';' : ''
   let parts = parts + ['from', "'" . a:from . "'" . semicolon]
   let importLine = join(parts, ' ')
-  let wrapParts = g:vim_ember_imports_multiline_max_vars > 0 &&
-        \ len(destructureParts) > g:vim_ember_imports_multiline_max_vars
-  let wrapLine = g:vim_ember_imports_multiline_max_col > 0 &&
-        \ strchars(importLine) > g:vim_ember_imports_multiline_max_col
+  let wrapParts = g:vim_javascript_imports_multiline_max_vars > 0 &&
+        \ len(destructureParts) > g:vim_javascript_imports_multiline_max_vars
+  let wrapLine = g:vim_javascript_imports_multiline_max_col > 0 &&
+        \ strchars(importLine) > g:vim_javascript_imports_multiline_max_col
   if wrapParts
     let sep = s:IndentChars(1)
     let firstBracketIdx = index(parts, '{')
