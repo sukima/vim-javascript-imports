@@ -1,15 +1,18 @@
-# vim-ember-imports
+# vim-javascript-imports
 
-Excited for the new Ember Module Unification in 3.0? Concerned that you won't
-be able to remember all the new import statements? Not to fret, this plugin
-will save the day. You can add and update import statements with on mapping or
-command. It can fill in missing import statements based on the word under the
-cursor.
+Tired of always looking up module names in the browser? Sick of copy/pasting
+JavaScript import lines? Fear not, with this addon you can add and update
+import statements with on mapping or command. It can fill in missing import
+statements based on the word under the cursor.
 
 It will properly format the import statements even when updating existing ones
-and it can wrap long lines oh and it sorts the variables too.
+and it can wrap long lines--oh and it sorts the variables too.
 
 ![animated screen shot](https://sukima.github.io/vim-ember-imports/vim-ember-imports.gif)
+
+**Out of the box the addon does not add any imports.** It is the job of *other*
+plugins to define imports you can use in code. See [the documentation][txt-doc]
+for information on adding your own.
 
 ## Commands, Mappings and Configuration
 
@@ -33,7 +36,7 @@ Copy and paste in your shell:
 
 ```bash
 cd ~/.vim/bundle
-git clone https://github.com/sukima/vim-ember-imports.git
+git clone https://github.com/sukima/vim-javascript-imports.git
 ```
 
 ### Using [vpm][vpm]:
@@ -41,7 +44,7 @@ git clone https://github.com/sukima/vim-ember-imports.git
 Run this command in your shell:
 
 ```bash
-vpm insert sukima/vim-ember-imports
+vpm insert sukima/vim-javascript-imports
 ```
 
 ### Using [Plug][plug]:
@@ -49,7 +52,7 @@ vpm insert sukima/vim-ember-imports
 Just add this line to your `~/.vimrc` inside plug call:
 
 ```vim
-Plug 'sukima/vim-ember-imports'
+Plug 'sukima/vim-javascript-imports'
 ```
 
 And run `:PlugInstall` inside Vim or `vim +PlugInstall +qa` from shell.
@@ -59,7 +62,7 @@ And run `:PlugInstall` inside Vim or `vim +PlugInstall +qa` from shell.
 MIT
 
 [pathogen]: https://github.com/tpope/vim-pathogen
-[txt-doc]: https://raw.githubusercontent.com/sukima/vim-ember-imports/master/doc/emberimports.txt
+[txt-doc]: https://raw.githubusercontent.com/sukima/vim-javascript-imports/master/doc/vim-javascript-imports.txt
 [vpm]: https://github.com/KevinSjoberg/vpm
 [vundle]: https://github.com/gmarik/vundle
 [plug]: https://github.com/junegunn/vim-plug

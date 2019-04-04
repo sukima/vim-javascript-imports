@@ -1,83 +1,81 @@
-*ember-imports.txt*                    Easily Maintain Ember Import Statements
+*vim-javascript-imports.txt*           Easily Maintain Ember Import Statements
 
 CONTENTS
 
-    1. Intro ...................... |EmberImportsIntro|
-    2. Command .................... |:Emimport|
-    3. Mapping .................... |EmberImportsMapping|
-    4. Configuration .............. |EmberImportsConfig|
-    5. License .................... |EmberImportsLicense|
-    6. Contributing ............... |EmberImportsContributing|
+    1. Intro ...................... |JavaScriptImportsIntro|
+    2. Command .................... |:JSImport|
+    3. Mapping .................... |JavaScriptImportsMapping|
+    4. Configuration .............. |JavaScriptImportsConfig|
+    5. Adding Import Definitions... |:JSAddImport|
+    6. License .................... |JavaScriptImportsLicense|
+    7. Contributing ............... |JavaScriptImportsContributing|
 
 ==============================================================================
-1. Intro                                                   *EmberImportsIntro*
+1. Intro                                              *JavaScriptImportsIntro*
 
 Keep your import statements in sync with your code by appending or updating
-statements with Ember keywords.
+statements with defined keywords.
 
-The intended audience for this are Ember developers who use Vim and want to
-automate the look up process when it comes to Ember's large set of import
-statements. Since the Great Module Unification the API is no longer stemmed off
-a single global but instead imported through module namespaces. This make the
-code easier to reason about and makes it easier for tools to parse.
-Unfortunately it also means memorizing a lot of extra boilerplate.
+The intended audience for this are JavaScript developers who use Vim and want
+to automate the look up process when it comes to import statements.
 
 With this plugin Vim will update the import list for you. By looking up the
-import statement for the keyword under the cursor and either adding it or
+import statement for a keyword under the cursor and either adding it or
 updating the current one to have the new keyword.
 
-The list was manually copied from https://emberjs.com/api/ember/3.0.0
+You can manually add import definitions or use a compatible plugin which
+defines import definitions for you.
 
 ==============================================================================
-2. :Emimport                                                       *:Emimport*
+2. :JSImport                                                       *:JSImport*
 
 Import statements can be added/updated via a command. The first argument is the
-Ember keyword you wish to add. It has auto completion for all the know Ember
+JavaScript keyword you wish to add. It has auto completion for all the defined
 keywords. If you leave the keyword blank it will take the word under the
 cursor.
 
 Usage:
     >
-    :Emimport [KEYWORD]
+    :JSImport [KEYWORD]
 <
 Examples:
     >
-    :Emimport
+    :JSImport
 <
     Will lookup the keyword under the cursor and add/update the import
     statement list at the top of the file.
     >
-    :Emimport Component
+    :JSImport Component
 <
     Will add this if it doesn't already exist:
 
         import Component from '@ember/component';
 
 ==============================================================================
-3. Mapping                                               *EmberImportsMapping*
+3. Mapping                                          *JavaScriptImportsMapping*
 
 For convenience a mapping can be used to grab the keyword under the cursor and
-execute the |:Emimport| command for you.
+execute the |:JSImport| command for you.
 
 By default this is "<Leader>e". The map can be adjusted or disabled. See
-|EmberImportsConfig| for more on this.
+|JavaScriptImportsConfig| for more on this.
 
 ==============================================================================
-4. Configuration                                          *EmberImportsConfig*
+4. Configuration                                     *JavaScriptImportsConfig*
 
 Mapping
     You can set the map that triggers the imports plugin.
     >
-    let g:vim_ember_imports_map = '<Leader>e'
+    let g:vim_javascript_imports_map = '<Leader>e'
 <
     To disable set to 0.
     >
-    let g:vim_ember_imports_map = 0
+    let g:vim_javascript_imports_map = 0
 <
 Disable Semicolons
     You can disable the use of semicolons by setting this to 0. (Default 1)
     >
-    let g:vim_ember_imports_use_semicolons = 0
+    let g:vim_javascript_imports_use_semicolons = 0
 <
 Definition Wrapping
     To make code easier to read this plugin will break long a import statement
@@ -96,7 +94,7 @@ Definition Wrapping
 
     This number can be adjusted (0 to disable):
     >
-    let g:vim_ember_imports_multiline_max_vars = 3
+    let g:vim_javascript_imports_multiline_max_vars = 3
 <
     Alternatively if the line has less then that number of variables but still
     exceeds a maximum column (default: 80) it can split the line in two.
@@ -106,38 +104,96 @@ Definition Wrapping
 
     This can be adjusted (0 to disable):
     >
-    let g:vim_ember_imports_multiline_max_col = 80
-<
-Module Unification for Ember Data
-   If you prefer the newer ember-data modules (2.3+) and wish to use them set
-   this (default disabled):
-   >
-   let g:ember_imports_ember_data_next = 1
+    let g:vim_javascript_imports_multiline_max_col = 80
 <
 Import Sorting
-   If you create a function called `EmberImportSort` in your .vimrc it will
-   run after the import has been added.
+   If you create a function called `JavaScriptImportSort` in your .vimrc it
+   will run after the import has been added.
 
    For example this will call into https://github.com/ruanyl/vim-sort-imports
    >
-   function EmberImportSort()
+   function JavaScriptImportSort()
        silent exec "w"
        call import_sort#run()
    endfunction
 <
 
 ==============================================================================
-5. License                                               *EmberImportsLicense*
+5. Adding Import Definitions                                    *:JSAddImport*
+
+Import definitions can be added in two ways. Easiest is to use the
+|:JSAddImport| command.
+
+    >
+    :JSAddImport [IMPORT STATEMENT]
+<
+Example:
+    >
+    :JSAddImport import { foo } from 'bar'
+<
+    Will add the foo keyword and definition to the database and make it
+    available via the |:JSImport| command.
+
+Because this command will parse the import statement doing this for a large set
+of definitions could slow down Vim while it loads. To avoid a performance hit
+for large sets you can alternatively add the definitions manually.
+
+                                                     *JSAddImportDefinition()*
+
+The function |JSAddImportDefinition()| will allow you to add definitions
+without parsing the import string.
+
+The function takes a |Dictionary| with the following keys: name, default, from,
+and aliased.
+
+    name (string)
+        - The name used to lookup an import.
+    default (number)
+        - 0 for this definition to be defined inside the { brackets }
+        - 1 for this definition to be defined as a default import
+    from (string)
+        - The module name / file path for this definition
+    aliased (string) (optional)
+        - The actual name to import. The name above will be used with "as"
+
+Example:
+    >
+    call JSAddImportDefinition({"name": "foo", "default": 1, "from": "bar"})
+<
+    Will add the foo keyword and definition to the database and make it
+    available via the |:JSImport| command. And would result in the following
+    import statement when completed:
+    >
+    import foo from 'bar';
+<
+Example:
+    >
+    call JSAddImportDefinition({
+        \ "name": "foo",
+        \ "default": 0,
+        \ "from": "bar",
+        \ "aliased": "baz"
+        \ })
+<
+    Will add the foo keyword and definition to the database and make it
+    available via the |:JSImport| command. And would result in the following
+    import statement when completed:
+    >
+    import { baz as foo } from 'bar';
+<
+
+==============================================================================
+6. License                                          *JavaScriptImportsLicense*
 
 Released under the MIT License.
 
 ==============================================================================
-6. Contributing                                     *EmberImportsContributing*
+7. Contributing                                *JavaScriptImportsContributing*
 
 Contributions are welcomed and appreciated. Just follow the normal Github
 procedure. Go to:
 
-    https://github.com/sukima/vim-ember-imports
+    https://github.com/sukima/vim-javascript-imports
 
 Fork the project. Work on what you think would make it better. Send a pull
 request.
