@@ -92,7 +92,7 @@ function s:CompileDefinitions(ast)
     elseif node.type == 'from'
       for item in nodeStack
         if item.alias
-          let definitions = definitions + [{'name': item.alias, 'default': item.default, 'from': node.value, 'aliased': iten.name}]
+          let definitions = definitions + [{'name': item.alias, 'default': item.default, 'from': node.value, 'aliased': item.name}]
         else
           let definitions = definitions + [{'name': item.name, 'default': item.default, 'from': node.value}]
         endif
@@ -117,7 +117,7 @@ function! s:RenderImport(ast, from)
   let destructureParts = []
   for token in a:ast
     let part = token.name
-    if !empty(token.alias)
+    if has_key(token, 'alias') && !empty(token.alias)
       let part = part . ' as ' . token.alias
     endif
     if token.default
