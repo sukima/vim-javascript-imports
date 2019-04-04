@@ -26,14 +26,14 @@ endif
 
 let g:vim_javascript_import_definitions = {}
 
-"JSAddImportDefinition {{{1
+" JSAddImportDefinition {{{1
 function JSAddImportDefinition(definition)
   let g:vim_javascript_import_definitions[a:definition.name] = a:definition
 endfunction
 
 " JSAddImport {{{1
 function JSAddImport(importString)
-  let definitions = javascriptimports#getDefinitions(a:importString)
+  let definitions = jsimports#getDefinitions(a:importString)
   for definition in definitions
     call JSAddImportDefinition(definition)
   endfor
@@ -42,10 +42,10 @@ endfunction
 " }}}1
 
 if !empty(g:vim_javascript_imports_map)
-  execute "nnoremap " . g:vim_javascript_imports_map . " :call javascriptimports#run()<Cr>"
+  execute "nnoremap " . g:vim_javascript_imports_map . " :call jsimports#run()<Cr>"
 endif
 
 command -nargs=1 JSAddImport call JSAddImport(<f-args>)
-command -nargs=* -complete=customlist,javascriptimports#complete JSImport call javascriptimports#run(<f-args>)
+command -nargs=* -complete=customlist,jsimports#complete JSImport call jsimports#run(<f-args>)
 
 " vim:sw=2 ts=2 et fdm=marker

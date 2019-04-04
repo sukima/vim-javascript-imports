@@ -192,7 +192,7 @@ endfunction
 
 " UpdateJavascriptImport {{{1
 function! s:UpdateJavascriptImport(pos, lines, definition)
-  let definitions = javascriptimports#getDefinitions(a:lines) + [a:definition]
+  let definitions = jsimports#getDefinitions(a:lines) + [a:definition]
   let importStr = s:RenderImport(definitions, a:definition.from)
   call append(a:pos, importStr)
   return len(importStr)
@@ -236,15 +236,15 @@ function! s:AddOrUpdateJavascriptImport(token)
   call setpos("''", curpos)
 endfunction
 
-" javascriptimports#getDefinitions {{{1
-function javascriptimports#getDefinitions(importString)
+" jsimports#getDefinitions {{{1
+function jsimports#getDefinitions(importString)
   let tokens = s:TokenizeImportString(a:importString)
   let ast = s:ParseAST(tokens)
   return s:CompileDefinitions(ast)
 endfunction
 
-" javascriptimports#run {{{1
-function! javascriptimports#run(...)
+" jsimports#run {{{1
+function! jsimports#run(...)
   let tokens = empty(a:000) ? [expand('<cword>')] : a:000
   for token in tokens
     let adjustment = s:AddOrUpdateJavascriptImport(token)
@@ -255,8 +255,8 @@ function! javascriptimports#run(...)
   endif
 endfunction
 
-" javascriptimports#complete {{{1
-function! javascriptimports#complete(ArgLead, CmdLine, CursorPos)
+" jsimports#complete {{{1
+function! jsimports#complete(ArgLead, CmdLine, CursorPos)
   return filter(keys(g:vim_javascript_import_definitions), "v:val =~# '^" . a:ArgLead . "'")
 endfunction
 
