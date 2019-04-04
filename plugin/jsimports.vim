@@ -45,7 +45,7 @@ if !empty(g:vim_javascript_imports_map)
   execute "nnoremap " . g:vim_javascript_imports_map . " :call jsimports#run()<Cr>"
 endif
 
-command -nargs=1 JSAddImport call JSAddImport(<f-args>)
+command -nargs=1 JSAdd call JSAddImport(<f-args>)
 command -nargs=* -complete=customlist,jsimports#complete JSImport call jsimports#run(<f-args>)
 
 " vim:sw=2 ts=2 et fdm=marker

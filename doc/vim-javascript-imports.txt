@@ -6,7 +6,7 @@ CONTENTS
     2. Command .................... |:JSImport|
     3. Mapping .................... |JavaScriptImportsMapping|
     4. Configuration .............. |JavaScriptImportsConfig|
-    5. Adding Import Definitions... |:JSAddImport|
+    5. Adding Import Definitions... |:JSAdd| |JSAddImport()|
     6. License .................... |JavaScriptImportsLicense|
     7. Contributing ............... |JavaScriptImportsContributing|
 
@@ -119,24 +119,44 @@ Import Sorting
 <
 
 ==============================================================================
-5. Adding Import Definitions                                    *:JSAddImport*
+5. Adding Import Definitions                                          *:JSAdd*
 
 Import definitions can be added in two ways. Easiest is to use the
-|:JSAddImport| command.
+|:JSAdd| command.
 
     >
-    :JSAddImport [IMPORT STATEMENT]
+    :JSAdd import [IMPORT NAMES] from [IMPORT FROM]
 <
 Example:
     >
-    :JSAddImport import { foo } from 'bar'
+    :JSAdd import { foo } from bar
 <
     Will add the foo keyword and definition to the database and make it
     available via the |:JSImport| command.
 
 Because this command will parse the import statement doing this for a large set
 of definitions could slow down Vim while it loads. To avoid a performance hit
-for large sets you can alternatively add the definitions manually.
+for large sets you can alternatively add the definitions manually with
+|JSAddImportDefinition()|.
+
+                                                               *JSAddImport()*
+
+You can also call a function if it is more convinient with |JSAddImport()|.
+
+    >
+    :call JSAddImport('import [IMPORT NAMES] from [IMPORT FROM]')
+<
+Example:
+    >
+    :call JSAddImport('import { foo } from bar')
+<
+    Will add the foo keyword and definition to the database and make it
+    available via the |:JSImport| command.
+
+Because this function will parse the import statement doing this for a large
+set of definitions could slow down Vim while it loads. To avoid a performance
+hit for large sets you can alternatively add the definitions manually with
+|JSAddImportDefinition()|.
 
                                                      *JSAddImportDefinition()*
 
