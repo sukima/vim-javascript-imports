@@ -170,7 +170,7 @@ endfunction
 " DefinitionForToken {{{1
 function! s:DefinitionForToken(token)
   if !has_key(g:vim_javascript_import_definitions, a:token)
-    throw 'Unknown JavaScript import ' . a:token
+    throw 'UnknownImport:' . a:token
   endif
   let info = g:vim_javascript_import_definitions[a:token]
   if has_key(info, 'aliased') && !empty(info.aliased)
@@ -220,7 +220,14 @@ endfunction
 " AddOrUpdateJavascriptImport {{{1
 function! s:AddOrUpdateJavascriptImport(token)
   let prevpos = getcurpos()
-  let definition = s:DefinitionForToken(a:token)
+  try
+    let definition = s:DefinitionForToken(a:token)
+  catch /^UnknownImport/
+    echohl Error
+    echo 'Unknown JavaScript import: ' . a:token
+    echohl None
+    return
+  endtry
   let loc = search('\vfrom\s[''"]' . escape(definition.from, '_.-/@') . '[''"]', 'bcwz')
   if loc == 0
     let adjustment = s:AppendJavascriptImport(s:FindLastImport(), definition)
